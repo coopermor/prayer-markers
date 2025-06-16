@@ -17,37 +17,37 @@ import net.runelite.client.ui.overlay.OverlayPosition;
 
 class PrayerMarkersOverlay extends Overlay
 {
-    private final Client client;
-    private final PrayerMarkersPlugin plugin;
-    private final PrayerMarkersConfig config;
+	private final Client client;
+	private final PrayerMarkersPlugin plugin;
+	private final PrayerMarkersConfig config;
 
-    @Inject
-    private PrayerMarkersOverlay(Client client, PrayerMarkersPlugin plugin, PrayerMarkersConfig config)
-    {
-        this.client = client;
-        this.plugin = plugin;
-        this.config = config;
+	@Inject
+	private PrayerMarkersOverlay(Client client, PrayerMarkersPlugin plugin, PrayerMarkersConfig config)
+	{
+		this.client = client;
+		this.plugin = plugin;
+		this.config = config;
 
 		setPosition(OverlayPosition.DYNAMIC);
 		setPriority(Overlay.PRIORITY_HIGHEST);
 		setLayer(OverlayLayer.ABOVE_WIDGETS);
-    }
+	}
 
-    @Override
-    public Dimension render(Graphics2D graphics)
-    {
-        for (PrayerMarker marker : plugin.getMarkers())
-        {
-            if(!marker.isEnabled())
-            {
-                continue;
-            }
-            PrayerInfo info = marker.getPrayerInfo();
-            PrayerInfo prayerInfo = PrayerInfo.valueOf(info.name());
-            Color color = marker.getOveralyColor();
-            
-            renderPrayerOverlay(graphics, client, prayerInfo, color);
-        }
-        return null;
-    }
+	@Override
+	public Dimension render(Graphics2D graphics)
+	{
+		for (PrayerMarker marker : plugin.getMarkers())
+		{
+			if (!marker.isEnabled())
+			{
+				continue;
+			}
+			PrayerInfo info = marker.getPrayerInfo();
+			PrayerInfo prayerInfo = PrayerInfo.valueOf(info.name());
+			Color color = marker.getOveralyColor();
+
+			renderPrayerOverlay(graphics, client, prayerInfo, color);
+		}
+		return null;
+	}
 }

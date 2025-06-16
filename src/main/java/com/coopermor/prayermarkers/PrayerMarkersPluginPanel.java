@@ -20,86 +20,88 @@ import javax.swing.border.EmptyBorder;
 
 import java.awt.image.BufferedImage;
 
-class PrayerMarkersPluginPanel extends PluginPanel {
-    private static final ImageIcon ADD_ICON;
-    private final PluginErrorPanel errorPanel = new PluginErrorPanel();
-    private final Client client;
+class PrayerMarkersPluginPanel extends PluginPanel
+{
+	private static final ImageIcon ADD_ICON;
+	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
+	private final Client client;
 	private final PrayerMarkersPlugin plugin;
 	private final PrayerMarkersConfig config;
 
-    static
-    {
-        final BufferedImage addIcon = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "add_icon.png");
-        ADD_ICON = new ImageIcon(addIcon);
+	static
+	{
+		final BufferedImage addIcon = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "add_icon.png");
+		ADD_ICON = new ImageIcon(addIcon);
 
-        final BufferedImage visibleImg = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "visible_icon.png");
+		final BufferedImage visibleImg = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "visible_icon.png");
 		final BufferedImage invisibleImg = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "invisible_icon.png");
-    }
-    public PrayerMarkersPluginPanel(Client client, PrayerMarkersPlugin plugin, PrayerMarkersConfig config)
-    {
-        this.client = client;
-        this.plugin = plugin;
-        this.config = config;
+	}
+	public PrayerMarkersPluginPanel(Client client, PrayerMarkersPlugin plugin, PrayerMarkersConfig config)
+	{
+		this.client = client;
+		this.plugin = plugin;
+		this.config = config;
 
-        setLayout(new BorderLayout());
-        setBorder(new EmptyBorder(10, 10, 10, 10));
+		setLayout(new BorderLayout());
+		setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        JPanel northPanel = new JPanel(new BorderLayout());
-        northPanel.setBorder(new EmptyBorder(1, 0, 10, 0));
+		JPanel northPanel = new JPanel(new BorderLayout());
+		northPanel.setBorder(new EmptyBorder(1, 0, 10, 0));
 
-        JPanel titlePanel = new JPanel(new BorderLayout());
-        JLabel markerAdd = new JLabel(ADD_ICON);
-        JPanel markerButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 7, 3));
-        JPanel centerPanel = new JPanel(new BorderLayout());
+		JPanel titlePanel = new JPanel(new BorderLayout());
+		JLabel markerAdd = new JLabel(ADD_ICON);
+		JPanel markerButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 7, 3));
+		JPanel centerPanel = new JPanel(new BorderLayout());
 
 		titlePanel.setBorder(new EmptyBorder(1, 3, 10, 7));
-        add(titlePanel, BorderLayout.NORTH);
+		add(titlePanel, BorderLayout.NORTH);
 
-        markerAdd.setToolTipText("Add new prayer marker");
-        markerAdd.addMouseListener(new MarkerAddMouseAdapter(markerAdd, this::addMarker));
+		markerAdd.setToolTipText("Add new prayer marker");
+		markerAdd.addMouseListener(new MarkerAddMouseAdapter(markerAdd, this::addMarker));
 
-        centerPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		centerPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
-        JLabel title = new JLabel();
-        title.setText("Prayer Markers");
-        title.setForeground(Color.WHITE);
+		JLabel title = new JLabel();
+		title.setText("Prayer Markers");
+		title.setForeground(Color.WHITE);
 
-        titlePanel.add(title, BorderLayout.WEST);
-        titlePanel.add(markerButtons, BorderLayout.EAST);
+		titlePanel.add(title, BorderLayout.WEST);
+		titlePanel.add(markerButtons, BorderLayout.EAST);
 
-        northPanel.add(titlePanel, BorderLayout.NORTH);
+		northPanel.add(titlePanel, BorderLayout.NORTH);
 
-        JPanel markerView = new JPanel();
-        markerView.setLayout(new BoxLayout(markerView, BoxLayout.Y_AXIS));
-        markerView.setBackground(ColorScheme.DARK_GRAY_COLOR);
-        markerView.add(errorPanel);
-        setupErrorPanel(true);
+		JPanel markerView = new JPanel();
+		markerView.setLayout(new BoxLayout(markerView, BoxLayout.Y_AXIS));
+		markerView.setBackground(ColorScheme.DARK_GRAY_COLOR);
+		markerView.add(errorPanel);
+		setupErrorPanel(true);
 
-        markerButtons.add(markerAdd);
+		markerButtons.add(markerAdd);
 
-        centerPanel.add(markerView, BorderLayout.NORTH);
-        add(northPanel, BorderLayout.NORTH);
-        add(centerPanel, BorderLayout.CENTER);
-    }
+		centerPanel.add(markerView, BorderLayout.NORTH);
+		add(northPanel, BorderLayout.NORTH);
+		add(centerPanel, BorderLayout.CENTER);
+	}
 
-    public void rebuild()
-    {
-        repaint();
-        revalidate();
-    }
+	public void rebuild()
+	{
+		repaint();
+		revalidate();
+	}
 
-    private void addMarker()
-    {
-        setupErrorPanel(false);
-    }
+	private void addMarker()
+	{
+		setupErrorPanel(false);
+	}
 
-    private void setupErrorPanel(boolean enabled) {
-        PluginErrorPanel errorPanel = this.errorPanel;
-        assert errorPanel != null : "prayerMarkerErrorPanel = null";
-        errorPanel.setVisible(enabled);
-        if (enabled)
-        {
-            errorPanel.setContent("Prayer Markers", "Click the '+' button to add a prayer marker to the prayer tab.");
-        }
-    }
+	private void setupErrorPanel(boolean enabled)
+	{
+		PluginErrorPanel errorPanel = this.errorPanel;
+		assert errorPanel != null : "prayerMarkerErrorPanel = null";
+		errorPanel.setVisible(enabled);
+		if (enabled)
+		{
+			errorPanel.setContent("Prayer Markers", "Click the '+' button to add a prayer marker to the prayer tab.");
+		}
+	}
 }

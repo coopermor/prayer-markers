@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Provides;
 
-import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -119,7 +118,9 @@ public class PrayerMarkersPlugin extends Plugin
 
 		try
 		{
+			//CHECKSTYLE:OFF
 			List<PrayerMarker> fromConfig = gson.fromJson(json, new TypeToken<List<PrayerMarker>>(){}.getType());
+			//CHECKSTYLE:ON
 			fromConfig.removeIf(PrayerMarker::isInvalid);
 			return fromConfig;
 		}

@@ -1,7 +1,8 @@
 package com.coopermor.prayermarkers;
 
-public enum WidgetInfo {
-    PRAYER_THICK_SKIN(WidgetID.PRAYER_ID, WidgetID.Prayer.THICK_SKIN),
+public enum WidgetInfo
+{
+	PRAYER_THICK_SKIN(WidgetID.PRAYER_ID, WidgetID.Prayer.THICK_SKIN),
 	PRAYER_BURST_OF_STRENGTH(WidgetID.PRAYER_ID, WidgetID.Prayer.BURST_OF_STRENGTH),
 	PRAYER_CLARITY_OF_THOUGHT(WidgetID.PRAYER_ID, WidgetID.Prayer.CLARITY_OF_THOUGHT),
 	PRAYER_SHARP_EYE(WidgetID.PRAYER_ID, WidgetID.Prayer.SHARP_EYE),
@@ -31,16 +32,16 @@ public enum WidgetInfo {
 	PRAYER_RIGOUR(WidgetID.PRAYER_ID, WidgetID.Prayer.RIGOUR),
 	PRAYER_AUGURY(WidgetID.PRAYER_ID, WidgetID.Prayer.AUGURY);
 
-    private final int groupId;
+	private final int groupId;
 	private final int childId;
 
-    WidgetInfo(int groupId, int childId)
+	WidgetInfo(int groupId, int childId)
 	{
 		this.groupId = groupId;
 		this.childId = childId;
 	}
 
-    public int getId()
+	public int getId()
 	{
 		return groupId << 16 | childId;
 	}

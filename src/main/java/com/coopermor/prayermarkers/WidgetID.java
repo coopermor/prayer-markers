@@ -2,10 +2,11 @@ package com.coopermor.prayermarkers;
 
 import net.runelite.api.gameval.InterfaceID;
 
-public final class WidgetID {
-    public static final int PRAYER_ID = InterfaceID.PRAYERBOOK;
+public final class WidgetID
+{
+	public static final int PRAYER_ID = InterfaceID.PRAYERBOOK;
 
-    static class Prayer
+	static class Prayer
 	{
 		static final int THICK_SKIN = 9;
 		static final int BURST_OF_STRENGTH = 10;
