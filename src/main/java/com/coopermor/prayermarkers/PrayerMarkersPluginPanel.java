@@ -2,13 +2,16 @@ package com.coopermor.prayermarkers;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.FlowLayout;
 
+import com.coopermor.prayermarkers.adapters.MarkerAddMouseAdapter;
 import net.runelite.api.Client;
+import net.runelite.client.ui.ColorScheme;
 import net.runelite.client.ui.PluginPanel;
+import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.ImageUtil;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,11 +22,7 @@ import java.awt.image.BufferedImage;
 
 class PrayerMarkersPluginPanel extends PluginPanel {
     private static final ImageIcon ADD_ICON;
-	private static final ImageIcon ADD_HOVER_ICON;
-
-    private final JLabel title = new JLabel();
-    private final JLabel markerAdd = new JLabel(ADD_ICON);
-
+    private final PluginErrorPanel errorPanel = new PluginErrorPanel();
     private final Client client;
 	private final PrayerMarkersPlugin plugin;
 	private final PrayerMarkersConfig config;
@@ -32,7 +31,6 @@ class PrayerMarkersPluginPanel extends PluginPanel {
     {
         final BufferedImage addIcon = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "add_icon.png");
         ADD_ICON = new ImageIcon(addIcon);
-        ADD_HOVER_ICON = new ImageIcon(ImageUtil.alphaOffset(addIcon, 0.53f));
 
         final BufferedImage visibleImg = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "visible_icon.png");
 		final BufferedImage invisibleImg = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "invisible_icon.png");
@@ -46,36 +44,42 @@ class PrayerMarkersPluginPanel extends PluginPanel {
         setLayout(new BorderLayout());
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.setBorder(new EmptyBorder(1, 0, 10, 0));
+
         JPanel titlePanel = new JPanel(new BorderLayout());
+        JLabel markerAdd = new JLabel(ADD_ICON);
+        JPanel markerButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 7, 3));
+        JPanel centerPanel = new JPanel(new BorderLayout());
+
 		titlePanel.setBorder(new EmptyBorder(1, 3, 10, 7));
-
-        title.setText("Prayer Markers");
-		title.setForeground(Color.WHITE);
-
-        titlePanel.add(title, BorderLayout.WEST);
+        add(titlePanel, BorderLayout.NORTH);
 
         markerAdd.setToolTipText("Add new prayer marker");
-        markerAdd.addMouseListener(new MouseAdapter(){
-            @Override
-			public void mousePressed(MouseEvent mouseEvent)
-			{
-				addMarker();
-			}
+        markerAdd.addMouseListener(new MarkerAddMouseAdapter(markerAdd, this::addMarker));
 
-			@Override
-			public void mouseEntered(MouseEvent mouseEvent)
-			{
-				markerAdd.setIcon(ADD_HOVER_ICON);
-			}
+        centerPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
-			@Override
-			public void mouseExited(MouseEvent mouseEvent)
-			{
-				markerAdd.setIcon(ADD_ICON);
-			}
-        });
+        JLabel title = new JLabel();
+        title.setText("Prayer Markers");
+        title.setForeground(Color.WHITE);
 
-        add(titlePanel, BorderLayout.NORTH);
+        titlePanel.add(title, BorderLayout.WEST);
+        titlePanel.add(markerButtons, BorderLayout.EAST);
+
+        northPanel.add(titlePanel, BorderLayout.NORTH);
+
+        JPanel markerView = new JPanel();
+        markerView.setLayout(new BoxLayout(markerView, BoxLayout.Y_AXIS));
+        markerView.setBackground(ColorScheme.DARK_GRAY_COLOR);
+        markerView.add(errorPanel);
+        setupErrorPanel(true);
+
+        markerButtons.add(markerAdd);
+
+        centerPanel.add(markerView, BorderLayout.NORTH);
+        add(northPanel, BorderLayout.NORTH);
+        add(centerPanel, BorderLayout.CENTER);
     }
 
     public void rebuild()
@@ -86,6 +90,16 @@ class PrayerMarkersPluginPanel extends PluginPanel {
 
     private void addMarker()
     {
-        
+        setupErrorPanel(false);
+    }
+
+    private void setupErrorPanel(boolean enabled) {
+        PluginErrorPanel errorPanel = this.errorPanel;
+        assert errorPanel != null : "prayerMarkerErrorPanel = null";
+        errorPanel.setVisible(enabled);
+        if (enabled)
+        {
+            errorPanel.setContent("Prayer Markers", "Click the '+' button to add a prayer marker to the prayer tab.");
+        }
     }
 }
