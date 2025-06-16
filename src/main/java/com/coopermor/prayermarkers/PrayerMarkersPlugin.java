@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Provides;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,6 +90,11 @@ public class PrayerMarkersPlugin extends Plugin
 
 		overlayManager.add(prayerMarkersOverlay);
 
+		if (PrayerMarkerBootstrap.developerMode)
+		{
+			setupDebugMarkers();
+		}
+
 	}
 
 	@Override
@@ -148,5 +154,17 @@ public class PrayerMarkersPlugin extends Plugin
 	PrayerMarkersConfig provideConfig(ConfigManager configManager)
 	{
 		return configManager.getConfig(PrayerMarkersConfig.class);
+	}
+
+	private void setupDebugMarkers()
+	{
+		PrayerMarker testMarker = new PrayerMarker(
+				PrayerInfo.SMITE,
+				true,
+				"Marker 1",
+				Color.RED
+		);
+
+		markers.add(testMarker);
 	}
 }
