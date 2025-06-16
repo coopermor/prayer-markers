@@ -90,7 +90,6 @@ public class PrayerMarkersPlugin extends Plugin
 
 		overlayManager.add(prayerMarkersOverlay);
 
-		markers.add(testMarker);
 	}
 
 	@Override
