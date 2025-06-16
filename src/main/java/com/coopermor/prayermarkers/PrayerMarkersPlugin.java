@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Provides;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,6 +26,7 @@ import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.ClientToolbar;
 import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.ui.components.colorpicker.ColorPickerManager;
+import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.util.ImageUtil;
 
 @Slf4j
@@ -45,6 +47,9 @@ public class PrayerMarkersPlugin extends Plugin
 	private Client client;
 
 	@Inject
+	private OverlayManager overlayManager;
+
+	@Inject
 	private PrayerMarkersConfig config;
 
 	@Inject
@@ -52,6 +57,9 @@ public class PrayerMarkersPlugin extends Plugin
 
 	@Inject
 	private ConfigManager configManager;
+
+	@Inject
+	private PrayerMarkersOverlay prayerMarkersOverlay;
 
 	@Inject
 	private Gson gson;
@@ -79,6 +87,10 @@ public class PrayerMarkersPlugin extends Plugin
 			.build();
 
 		clientToolbar.addNavigation(navigationButton);
+
+		overlayManager.add(prayerMarkersOverlay);
+
+		markers.add(testMarker);
 	}
 
 	@Override
@@ -87,6 +99,7 @@ public class PrayerMarkersPlugin extends Plugin
 		clientToolbar.removeNavigation(navigationButton);
 		pluginPanel = null;
 		navigationButton = null;
+		overlayManager.remove(prayerMarkersOverlay);
 	}
 
 	private void loadMarkers()

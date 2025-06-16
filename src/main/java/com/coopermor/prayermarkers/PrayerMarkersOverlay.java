@@ -12,6 +12,8 @@ import net.runelite.api.Client;
 import net.runelite.client.ui.overlay.Overlay;
 
 import static com.coopermor.prayermarkers.Overlay.renderPrayerOverlay;
+import net.runelite.client.ui.overlay.OverlayLayer;
+import net.runelite.client.ui.overlay.OverlayPosition;
 
 class PrayerMarkersOverlay extends Overlay
 {
@@ -25,6 +27,10 @@ class PrayerMarkersOverlay extends Overlay
         this.client = client;
         this.plugin = plugin;
         this.config = config;
+
+		setPosition(OverlayPosition.DYNAMIC);
+		setPriority(Overlay.PRIORITY_HIGHEST);
+		setLayer(OverlayLayer.ABOVE_WIDGETS);
     }
 
     @Override
