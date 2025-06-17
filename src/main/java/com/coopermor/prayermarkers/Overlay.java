@@ -1,19 +1,22 @@
 package com.coopermor.prayermarkers;
 
 import net.runelite.api.Client;
-import net.runelite.api.VarClientInt;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.ui.overlay.OverlayUtil;
 
 import java.awt.*;
-
 public class Overlay
 {
 	public static Rectangle renderPrayerOverlay(Graphics2D graphics, Client client, PrayerInfo prayer, Color color)
 	{
 		Widget widget = client.getWidget(PrayerInfo.getPrayerWidgetId(prayer));
+		if (widget == null)
+		{
+			return null;
+		}
 
-		if (widget == null || client.getVarcIntValue(VarClientInt.INVENTORY_TAB) != 5)
+		Widget prayerFilterSprite = client.getWidget(35454982).getChild(0);
+		if (prayerFilterSprite != null && prayerFilterSprite.getSpriteId() != 1141)
 		{
 			return null;
 		}
