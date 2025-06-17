@@ -38,7 +38,7 @@ class PrayerMarkersOverlay extends Overlay
 	{
 		for (PrayerMarker marker : plugin.getMarkers())
 		{
-			if (!marker.isEnabled())
+			if (!marker.isEnabled() || !marker.isVisible())
 			{
 				continue;
 			}

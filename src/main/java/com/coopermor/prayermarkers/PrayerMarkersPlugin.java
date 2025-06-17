@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.inject.Provides;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -40,7 +41,7 @@ public class PrayerMarkersPlugin extends Plugin
 	private static final String ICON_FILE = "panel_icon.png";
 
 	@Getter(AccessLevel.PACKAGE)
-	private final Collection<PrayerMarker> markers = new ArrayList<>();
+	private Collection<PrayerMarker> markers = new ArrayList<>();
 
 	@Inject
 	private Client client;
@@ -74,7 +75,7 @@ public class PrayerMarkersPlugin extends Plugin
 	protected void startUp() throws Exception
 	{
 		pluginPanel = new PrayerMarkersPluginPanel(client, this, config);
-		pluginPanel.rebuild();
+
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
 
@@ -89,6 +90,15 @@ public class PrayerMarkersPlugin extends Plugin
 
 		overlayManager.add(prayerMarkersOverlay);
 
+		if (PrayerMarkerBootstrap.developerMode)
+		{
+			setupDebugMarkers();
+		}
+		else
+		{
+			loadMarkers();
+		}
+		pluginPanel.rebuild();
 	}
 
 	@Override
@@ -100,11 +110,35 @@ public class PrayerMarkersPlugin extends Plugin
 		overlayManager.remove(prayerMarkersOverlay);
 	}
 
+	public PrayerMarker addMarker(PrayerInfo prayerInfo, boolean enabled, String name, Color color)
+	{
+		final PrayerMarker newMarker = new PrayerMarker(prayerInfo, name, color);
+		assert markers != null : "ArrayList<PrayerMarker> markers = null";
+		if (!markers.contains(newMarker))
+		{
+			markers.add(newMarker);
+			saveMarkers();
+			pluginPanel.rebuild();
+		}
+		return newMarker;
+	}
+	public void removeMarker(PrayerMarker prayerMarker)
+	{
+		int before = markers.size();
+		markers.remove(prayerMarker);
+		saveMarkers();
+		loadMarkers();
+		int after = markers.size();
+		assert before - 1 == after : "Expected marker count to decrease by 1. Before: " + before + ", After: " + after;
+		saveMarkers();
+		pluginPanel.rebuild();
+	}
 	private void loadMarkers()
 	{
 		markers.clear();
-
-		markers.addAll(getPrayerMarkers());
+		Collection<PrayerMarker> savedMarkers = getPrayerMarkers();
+		assert savedMarkers != null : "getPrayerMarkers() = null";
+		markers.addAll(savedMarkers);
 	}
 
 	private Collection<PrayerMarker> getPrayerMarkers()
@@ -133,7 +167,7 @@ public class PrayerMarkersPlugin extends Plugin
 		}
 	}
 
-	private void saveMarkers(Collection<PrayerMarker> markers)
+	public void saveMarkers()
 	{
 		if (markers == null || markers.isEmpty())
 		{
@@ -148,5 +182,16 @@ public class PrayerMarkersPlugin extends Plugin
 	PrayerMarkersConfig provideConfig(ConfigManager configManager)
 	{
 		return configManager.getConfig(PrayerMarkersConfig.class);
+	}
+
+	private void setupDebugMarkers()
+	{
+		PrayerMarker testMarker = new PrayerMarker(
+				PrayerInfo.SMITE,
+				"Marker 1",
+				Color.RED
+		);
+
+		markers.add(testMarker);
 	}
 }
