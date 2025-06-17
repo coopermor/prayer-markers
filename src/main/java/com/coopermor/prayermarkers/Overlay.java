@@ -1,6 +1,7 @@
 package com.coopermor.prayermarkers;
 
 import net.runelite.api.Client;
+import net.runelite.api.VarClientInt;
 import net.runelite.api.widgets.Widget;
 import net.runelite.client.ui.overlay.OverlayUtil;
 
@@ -10,7 +11,7 @@ public class Overlay
 	public static Rectangle renderPrayerOverlay(Graphics2D graphics, Client client, PrayerInfo prayer, Color color)
 	{
 		Widget widget = client.getWidget(PrayerInfo.getPrayerWidgetId(prayer));
-		if (widget == null)
+		if (widget == null || client.getVarcIntValue(VarClientInt.INVENTORY_TAB) != 5)
 		{
 			return null;
 		}
