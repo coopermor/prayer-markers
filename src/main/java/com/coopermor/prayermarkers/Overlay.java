@@ -11,7 +11,7 @@ public class Overlay
 	public static Rectangle renderPrayerOverlay(Graphics2D graphics, Client client, PrayerInfo prayer, Color color)
 	{
 		Widget widget = client.getWidget(PrayerInfo.getPrayerWidgetId(prayer));
-		if (widget == null || client.getVarcIntValue(VarClientInt.INVENTORY_TAB) != 5)
+		if (widget == null || client.getVarcIntValue(VarClientInt.INVENTORY_TAB) != 5 || widget.isHidden())
 		{
 			return null;
 		}
