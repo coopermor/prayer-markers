@@ -110,9 +110,9 @@ public class PrayerMarkersPlugin extends Plugin
 		overlayManager.remove(prayerMarkersOverlay);
 	}
 
-	public PrayerMarker addMarker(PrayerInfo prayerInfo, boolean enabled, String name, Color color)
+	public PrayerMarker addMarker(PrayerInfo prayerInfo, boolean enabled, String name, Color color, float strokeThickness)
 	{
-		final PrayerMarker newMarker = new PrayerMarker(prayerInfo, name, color);
+		final PrayerMarker newMarker = new PrayerMarker(prayerInfo, name, color, strokeThickness);
 		assert markers != null : "ArrayList<PrayerMarker> markers = null";
 		if (!markers.contains(newMarker))
 		{
@@ -189,7 +189,8 @@ public class PrayerMarkersPlugin extends Plugin
 		PrayerMarker testMarker = new PrayerMarker(
 				PrayerInfo.SMITE,
 				"Marker 1",
-				Color.RED
+				Color.RED,
+				3.0F
 		);
 
 		markers.add(testMarker);

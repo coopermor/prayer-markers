@@ -34,7 +34,8 @@ public class MarkerAddMouseAdapter extends MouseAdapter
 		String name = "Marker";
 		Color color = Color.WHITE;
 		boolean enabled = true;
-		plugin.addMarker(selectedPrayer, enabled, name, color);
+		float strokeThickness = 3.0F;
+		plugin.addMarker(selectedPrayer, enabled, name, color, strokeThickness);
 		onClick.run();
 	}
 
