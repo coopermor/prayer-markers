@@ -8,7 +8,7 @@ import net.runelite.client.ui.overlay.OverlayUtil;
 import java.awt.*;
 public class Overlay
 {
-	public static Rectangle renderPrayerOverlay(Graphics2D graphics, Client client, PrayerInfo prayer, Color color)
+	public static Rectangle renderPrayerOverlay(Graphics2D graphics, Client client, PrayerInfo prayer, Color color, float strokeThickness)
 	{
 		Widget widget = client.getWidget(PrayerInfo.getPrayerWidgetId(prayer));
 		if (widget == null || client.getVarcIntValue(VarClientInt.INVENTORY_TAB) != 5 || widget.isHidden())
@@ -23,7 +23,8 @@ public class Overlay
 		}
 
 		Rectangle bounds = widget.getBounds();
-		OverlayUtil.renderPolygon(graphics, rectangleToPolygon(bounds), color);
+		Stroke stroke = new BasicStroke(strokeThickness);
+		OverlayUtil.renderPolygon(graphics, rectangleToPolygon(bounds), color, stroke);
 		return bounds;
 	}
 

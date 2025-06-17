@@ -15,7 +15,8 @@ class PrayerMarker
 	boolean enabled;
 	boolean visible;
 	boolean collapsed;
-	public PrayerMarker(PrayerInfo prayerInfo, String displayName, Color overlayColor)
+	float strokeThickness;
+	public PrayerMarker(PrayerInfo prayerInfo, String displayName, Color overlayColor, float strokeThickness)
 	{
 		this.prayerInfo = prayerInfo;
 		this.displayName = displayName;
@@ -23,12 +24,14 @@ class PrayerMarker
 		this.enabled = true;
 		this.visible = true;
 		this.collapsed = false;
+		this.strokeThickness = strokeThickness;
 	}
 	public static boolean isInvalid(PrayerMarker marker)
 	{
 		return marker == null
 		|| marker.prayerInfo == null
 		|| marker.displayName == null
-		|| marker.overalyColor == null;
+		|| marker.overalyColor == null
+		|| marker.strokeThickness <= 0.0005;
 	}
 }

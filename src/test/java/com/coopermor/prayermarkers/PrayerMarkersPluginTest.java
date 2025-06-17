@@ -8,16 +8,16 @@ import com.coopermor.prayermarkers.PrayerMarkerBootstrap;
 
 
 public class PrayerMarkersPluginTest {
-    public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 
-        OptionParser parser = new OptionParser();
-        parser.accepts("developer-mode");
-        OptionSet options = parser.parse(args);
-        if (options.has("developer-mode")) {
-            PrayerMarkerBootstrap.developerMode = true;
-        }
+		OptionParser parser = new OptionParser();
+		parser.accepts("developer-mode");
+		OptionSet options = parser.parse(args);
+		if (options.has("developer-mode")) {
+			PrayerMarkerBootstrap.developerMode = true;
+		}
 
-        ExternalPluginManager.loadBuiltin(PrayerMarkersPlugin.class);
-        RuneLite.main(args);
-    }
+		ExternalPluginManager.loadBuiltin(PrayerMarkersPlugin.class);
+		RuneLite.main(args);
+	}
 }

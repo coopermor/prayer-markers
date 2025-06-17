@@ -45,8 +45,9 @@ class PrayerMarkersOverlay extends Overlay
 			PrayerInfo info = marker.getPrayerInfo();
 			PrayerInfo prayerInfo = PrayerInfo.valueOf(info.name());
 			Color color = marker.getOveralyColor();
+			float strokeThickness = marker.getStrokeThickness();
 
-			renderPrayerOverlay(graphics, client, prayerInfo, color);
+			renderPrayerOverlay(graphics, client, prayerInfo, color, strokeThickness);
 		}
 		return null;
 	}
