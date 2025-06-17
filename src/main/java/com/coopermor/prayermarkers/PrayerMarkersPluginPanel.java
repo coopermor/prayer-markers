@@ -2,6 +2,7 @@ package com.coopermor.prayermarkers;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import com.coopermor.prayermarkers.adapters.MarkerAddMouseAdapter;
@@ -11,6 +12,7 @@ import net.runelite.client.ui.PluginPanel;
 import net.runelite.client.ui.components.PluginErrorPanel;
 import net.runelite.client.util.ImageUtil;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -27,6 +29,7 @@ class PrayerMarkersPluginPanel extends PluginPanel
 	private final Client client;
 	private final PrayerMarkersPlugin plugin;
 	private final PrayerMarkersConfig config;
+	private final JPanel markerView = new JPanel();
 
 	static
 	{
@@ -57,7 +60,7 @@ class PrayerMarkersPluginPanel extends PluginPanel
 		add(titlePanel, BorderLayout.NORTH);
 
 		markerAdd.setToolTipText("Add new prayer marker");
-		markerAdd.addMouseListener(new MarkerAddMouseAdapter(markerAdd, this::addMarker));
+		markerAdd.addMouseListener(new MarkerAddMouseAdapter(markerAdd, plugin, this::addMarker));
 
 		centerPanel.setBackground(ColorScheme.DARK_GRAY_COLOR);
 
@@ -70,7 +73,6 @@ class PrayerMarkersPluginPanel extends PluginPanel
 
 		northPanel.add(titlePanel, BorderLayout.NORTH);
 
-		JPanel markerView = new JPanel();
 		markerView.setLayout(new BoxLayout(markerView, BoxLayout.Y_AXIS));
 		markerView.setBackground(ColorScheme.DARK_GRAY_COLOR);
 		markerView.add(errorPanel);
@@ -85,6 +87,13 @@ class PrayerMarkersPluginPanel extends PluginPanel
 
 	public void rebuild()
 	{
+		markerView.removeAll();
+
+		for (PrayerMarker marker : plugin.getMarkers())
+		{
+			markerView.add(new PrayerMarkerPanel(plugin, config, marker));
+			markerView.add(Box.createRigidArea(new Dimension(0, 10)));
+		}
 		repaint();
 		revalidate();
 	}
