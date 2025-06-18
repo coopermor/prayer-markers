@@ -18,7 +18,8 @@ public class Overlay
 		}
 		Rectangle prayerIconBounds = prayerIconWidget.getBounds();
 		Stroke stroke = new BasicStroke(borderWidth);
-		OverlayUtil.renderPolygon(graphics, rectangleToPolygon(prayerIconBounds), color, stroke);
+		Color clear = new Color(0, 0, 0, 0);
+		OverlayUtil.renderPolygon(graphics, rectangleToPolygon(prayerIconBounds), color, clear, stroke);
 		return prayerIconBounds;
 	}
 
