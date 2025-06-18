@@ -6,8 +6,6 @@ import java.awt.Graphics2D;
 
 import javax.inject.Inject;
 
-import com.coopermor.prayermarkers.PrayerInfo;
-
 import net.runelite.api.Client;
 import net.runelite.client.ui.overlay.Overlay;
 
@@ -44,9 +42,10 @@ class PrayerMarkersOverlay extends Overlay
 			}
 			PrayerInfo info = marker.getPrayerInfo();
 			PrayerInfo prayerInfo = PrayerInfo.valueOf(info.name());
-			Color color = marker.getOveralyColor();
+			Color color = marker.getOverlayColor();
+			float strokeThickness = marker.getBorderWidth();
 
-			renderPrayerOverlay(graphics, client, prayerInfo, color);
+			renderPrayerOverlay(graphics, client, prayerInfo, color, strokeThickness);
 		}
 		return null;
 	}

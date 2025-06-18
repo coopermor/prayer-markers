@@ -1,5 +1,6 @@
 package com.coopermor.prayermarkers;
 
+import com.coopermor.prayermarkers.ui.PrayerMarkersPluginPanel;
 import com.google.common.base.Strings;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -40,8 +41,8 @@ public class PrayerMarkersPlugin extends Plugin
 	private static final String PLUGIN_NAME = "Prayer Markers";
 	private static final String ICON_FILE = "panel_icon.png";
 
-	@Getter(AccessLevel.PACKAGE)
-	private Collection<PrayerMarker> markers = new ArrayList<>();
+	@Getter(AccessLevel.PUBLIC)
+	Collection<PrayerMarker> markers = new ArrayList<>();
 
 	@Inject
 	private Client client;
@@ -74,8 +75,7 @@ public class PrayerMarkersPlugin extends Plugin
 	@Override
 	protected void startUp() throws Exception
 	{
-		pluginPanel = new PrayerMarkersPluginPanel(client, this, config);
-
+		pluginPanel = new PrayerMarkersPluginPanel(this, config);
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
 
@@ -90,7 +90,7 @@ public class PrayerMarkersPlugin extends Plugin
 
 		overlayManager.add(prayerMarkersOverlay);
 
-		if (PrayerMarkerBootstrap.developerMode)
+		if (PrayerMarkersDelegate.clientDeveloperMode)
 		{
 			setupDebugMarkers();
 		}
@@ -110,9 +110,9 @@ public class PrayerMarkersPlugin extends Plugin
 		overlayManager.remove(prayerMarkersOverlay);
 	}
 
-	public PrayerMarker addMarker(PrayerInfo prayerInfo, boolean enabled, String name, Color color)
+	public PrayerMarker addMarker(PrayerInfo prayerInfo, boolean enabled, String name, Color color, float borderWidth)
 	{
-		final PrayerMarker newMarker = new PrayerMarker(prayerInfo, name, color);
+		final PrayerMarker newMarker = new PrayerMarker(prayerInfo, name, color, borderWidth);
 		assert markers != null : "ArrayList<PrayerMarker> markers = null";
 		if (!markers.contains(newMarker))
 		{
@@ -189,7 +189,8 @@ public class PrayerMarkersPlugin extends Plugin
 		PrayerMarker testMarker = new PrayerMarker(
 				PrayerInfo.SMITE,
 				"Marker 1",
-				Color.RED
+				Color.RED,
+				3.0F
 		);
 
 		markers.add(testMarker);

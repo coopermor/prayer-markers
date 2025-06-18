@@ -7,28 +7,34 @@ import lombok.Setter;
 
 @Setter
 @Getter
+public
 class PrayerMarker
 {
 	PrayerInfo prayerInfo;
 	String displayName;
-	Color overalyColor;
+	Color overlayColor;
 	boolean enabled;
 	boolean visible;
 	boolean collapsed;
-	public PrayerMarker(PrayerInfo prayerInfo, String displayName, Color overlayColor)
+	float borderWidth;
+
+	public PrayerMarker(PrayerInfo prayerInfo, String displayName, Color overlayColor, float borderWidth)
 	{
 		this.prayerInfo = prayerInfo;
 		this.displayName = displayName;
-		this.overalyColor = overlayColor;
+		this.overlayColor = overlayColor;
 		this.enabled = true;
 		this.visible = true;
 		this.collapsed = false;
+		this.borderWidth = borderWidth;
 	}
+
 	public static boolean isInvalid(PrayerMarker marker)
 	{
 		return marker == null
 		|| marker.prayerInfo == null
 		|| marker.displayName == null
-		|| marker.overalyColor == null;
+		|| marker.overlayColor == null
+		|| marker.borderWidth <= 0.0005;
 	}
 }
