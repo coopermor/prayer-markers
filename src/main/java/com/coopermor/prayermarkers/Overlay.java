@@ -39,6 +39,14 @@ public class Overlay
 			return false;
 		}
 
+		// Interfaces like the bank and shops still has VarClientInt.INVENTORY_TAB set to 5
+		// but are forced away from the prayer screen. So we check the prayer widget is visible
+		Widget prayerBook = client.getWidget(35454976);
+		if (prayerBook == null || prayerBook.isHidden())
+		{
+			return false;
+		}
+
 		// Check if the prayer filtering interface widget is showing
 		Widget prayerFilters = client.getWidget(35454982);
 		if (prayerFilters != null)
@@ -51,7 +59,7 @@ public class Overlay
 		// Check if the prayer icons are hidden through prayer filtering
 		if (prayerWidget != null)
 		{
-			return !prayerWidget.isHidden();
+			return prayerWidget.isHidden();
 		}
 		return true;
 	}
