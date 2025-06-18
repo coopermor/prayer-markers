@@ -17,14 +17,12 @@ class PrayerMarkersOverlay extends Overlay
 {
 	private final Client client;
 	private final PrayerMarkersPlugin plugin;
-	private final PrayerMarkersConfig config;
 
 	@Inject
-	private PrayerMarkersOverlay(Client client, PrayerMarkersPlugin plugin, PrayerMarkersConfig config)
+	private PrayerMarkersOverlay(Client client, PrayerMarkersPlugin plugin)
 	{
 		this.client = client;
 		this.plugin = plugin;
-		this.config = config;
 
 		setPosition(OverlayPosition.DYNAMIC);
 		setPriority(Overlay.PRIORITY_HIGHEST);

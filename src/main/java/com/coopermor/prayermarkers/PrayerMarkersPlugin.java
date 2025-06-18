@@ -51,9 +51,6 @@ public class PrayerMarkersPlugin extends Plugin
 	private OverlayManager overlayManager;
 
 	@Inject
-	private PrayerMarkersConfig config;
-
-	@Inject
 	private ClientToolbar clientToolbar;
 
 	@Inject
@@ -75,7 +72,7 @@ public class PrayerMarkersPlugin extends Plugin
 	@Override
 	protected void startUp() throws Exception
 	{
-		pluginPanel = new PrayerMarkersPluginPanel(this, config);
+		pluginPanel = new PrayerMarkersPluginPanel(this);
 
 		final BufferedImage icon = ImageUtil.loadImageResource(getClass(), ICON_FILE);
 

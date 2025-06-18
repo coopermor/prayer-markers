@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import com.coopermor.prayermarkers.PrayerMarker;
-import com.coopermor.prayermarkers.PrayerMarkersConfig;
 import com.coopermor.prayermarkers.PrayerMarkersPlugin;
 import com.coopermor.prayermarkers.ui.adapters.AddMarkerMouseAdapter;
 import com.coopermor.prayermarkers.ui.PrayerMarkersPanel;
@@ -31,7 +30,6 @@ public class PrayerMarkersPluginPanel extends PluginPanel
 	private static final ImageIcon ADD_ICON;
 	private final PluginErrorPanel errorPanel = new PluginErrorPanel();
 	public final PrayerMarkersPlugin plugin;
-	private final PrayerMarkersConfig config;
 	private final JPanel markerView = new JPanel();
 
 	static
@@ -40,10 +38,9 @@ public class PrayerMarkersPluginPanel extends PluginPanel
 		ADD_ICON = new ImageIcon(addIcon);
 	}
 
-	public PrayerMarkersPluginPanel(PrayerMarkersPlugin plugin, PrayerMarkersConfig config)
+	public PrayerMarkersPluginPanel(PrayerMarkersPlugin plugin)
 	{
 		this.plugin = plugin;
-		this.config = config;
 
 		setLayout(new BorderLayout());
 		setBorder(new EmptyBorder(10, 10, 10, 10));
