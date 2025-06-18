@@ -53,13 +53,16 @@ public class Overlay
 		{
 			// 1141 is white and 1150 is red, red means toggled
 			Widget filterSprite = prayerFilters.getChild(0);
-			return filterSprite == null || filterSprite.getSpriteId() == 1141;
+			if (filterSprite != null && filterSprite.getSpriteId() == 1150)
+			{
+				return false;
+			}
 		}
 
 		// Check if the prayer icons are hidden through prayer filtering
 		if (prayerWidget != null)
 		{
-			return prayerWidget.isHidden();
+			return !prayerWidget.isHidden();
 		}
 		return true;
 	}
