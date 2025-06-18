@@ -3,6 +3,7 @@ package com.coopermor.prayermarkers.ui;
 import com.coopermor.prayermarkers.PrayerInfo;
 import com.coopermor.prayermarkers.PrayerMarker;
 import com.coopermor.prayermarkers.PrayerMarkersPlugin;
+import com.coopermor.prayermarkers.ui.adapters.BorderWidthKeyAdapter;
 import com.coopermor.prayermarkers.ui.adapters.CancelMouseAdapter;
 import com.coopermor.prayermarkers.ui.adapters.DeleteMarkerMouseAdapter;
 import com.coopermor.prayermarkers.ui.adapters.NameInputDoubleClickMouseAdapter;
@@ -25,9 +26,12 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
@@ -69,6 +73,7 @@ public class PrayerMarkersPanel extends JPanel
 		cancel = new JLabel("Cancel"),
 		rename = new JLabel("Rename");
 
+	private final JSpinner borderWidth = new JSpinner(new SpinnerNumberModel(1.0, 0.1, 10.0, 0.1));
 	public final JPanel markerContainer = new JPanel(new BorderLayout());
 	private final FlatTextField nameInput = new FlatTextField();
 	private final PrayerMarker marker;
@@ -159,6 +164,9 @@ public class PrayerMarkersPanel extends JPanel
 		JPanel rightActionsPrayer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
 		rightActionsPrayer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
 
+		JPanel bottomActionsPrayer = new JPanel(new BorderLayout());
+		bottomActionsPrayer.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
 		prayerMarkerColor.setToolTipText("edit prayer marker color");
 		prayerMarkerColor.setForeground(marker.getOverlayColor() == null ? Color.red : marker.getOverlayColor());
 		prayerMarkerColor.addMouseListener(new PrayerMarkerColorMouseAdapter(prayerMarkerColor, this));
@@ -166,7 +174,14 @@ public class PrayerMarkersPanel extends JPanel
 
 		prayerSelection.setSelectedItem(marker.getPrayerInfo().getDisplayName());
 		prayerSelection.addActionListener(new PrayerSelectionActionListener(prayerSelection, prayerMap, marker));
-		rightActionsPrayer.add(prayerSelection);
+		bottomActionsPrayer.add(prayerSelection);
+
+		borderWidth.setValue((double) marker.getBorderWidth());
+		borderWidth.addChangeListener(ce -> updateBorderWidth());
+		borderWidth.setEditor(new JSpinner.NumberEditor(borderWidth, "0.0"));
+		JFormattedTextField borderWidthField = ((JSpinner.NumberEditor) borderWidth.getEditor()).getTextField();
+		borderWidthField.addKeyListener(new BorderWidthKeyAdapter(borderWidthField));
+		rightActionsPrayer.add(borderWidth);
 
 		expandMarker = new JButton(marker.isCollapsed() ? COLLAPSE_ICON : EXPAND_ICON);
 		expandMarker.setRolloverIcon(marker.isCollapsed() ? COLLAPSE_HOVER_ICON : EXPAND_HOVER_ICON);
@@ -199,9 +214,16 @@ public class PrayerMarkersPanel extends JPanel
 		markerWrapper.add(nameWrapper);
 		markerWrapper.add(markerContainer);
 
+		JPanel horizontalRow = new JPanel(new BorderLayout());
+		horizontalRow.setBackground(ColorScheme.DARKER_GRAY_COLOR);
+
+		horizontalRow.add(leftActionsPrayer, BorderLayout.WEST);
+		horizontalRow.add(bottomActionsPrayer, BorderLayout.CENTER);
+		horizontalRow.add(rightActionsPrayer, BorderLayout.EAST);
+
 		markerContainer.setLayout(new BorderLayout());
-		markerContainer.add(leftActionsPrayer, BorderLayout.WEST);
-		markerContainer.add(rightActionsPrayer, BorderLayout.EAST);
+		markerContainer.setLayout(new BorderLayout());
+		markerContainer.add(horizontalRow, BorderLayout.SOUTH);
 
 		add(markerWrapper);
 
@@ -253,8 +275,14 @@ public class PrayerMarkersPanel extends JPanel
 		updateNameActions(false);
 		requestFocusInWindow();
 	}
+	private void updateBorderWidth()
+	{
+		float value = ((Number) borderWidth.getValue()).floatValue();
+		marker.setBorderWidth(value);
+		plugin.saveMarkers();
+	}
 
-	private void updateColorIndicators()
+private void updateColorIndicators()
 	{
 		prayerMarkerColor.setBorder(new MatteBorder(0, 0, 3, 0, marker.getOverlayColor()));
 		prayerMarkerColor.setIcon(BORDER_COLOR_ICON);
