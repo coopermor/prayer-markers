@@ -4,7 +4,6 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
-import com.coopermor.prayermarkers.PrayerMarkerBootstrap;
 
 
 public class PrayerMarkersPluginTest {
@@ -14,7 +13,7 @@ public class PrayerMarkersPluginTest {
 		parser.accepts("developer-mode");
 		OptionSet options = parser.parse(args);
 		if (options.has("developer-mode")) {
-			PrayerMarkerBootstrap.developerMode = true;
+			PrayerMarkersDelegate.clientDeveloperMode = true;
 		}
 
 		ExternalPluginManager.loadBuiltin(PrayerMarkersPlugin.class);

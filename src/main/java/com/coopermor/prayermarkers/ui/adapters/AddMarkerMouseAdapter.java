@@ -1,4 +1,4 @@
-package com.coopermor.prayermarkers.adapters;
+package com.coopermor.prayermarkers.ui.adapters;
 
 import com.coopermor.prayermarkers.PrayerInfo;
 import com.coopermor.prayermarkers.PrayerMarkersPlugin;
@@ -10,7 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-public class MarkerAddMouseAdapter extends MouseAdapter
+public class AddMarkerMouseAdapter extends MouseAdapter
 {
 	private static final BufferedImage addIcon = ImageUtil.loadImageResource(PrayerMarkersPlugin.class, "add_icon.png");
 	private static final ImageIcon ADD_ICON = new ImageIcon(addIcon);
@@ -19,7 +19,7 @@ public class MarkerAddMouseAdapter extends MouseAdapter
 	private final JLabel markerAdd;
 	private final Runnable onClick;
 
-	public MarkerAddMouseAdapter(JLabel markerAdd, PrayerMarkersPlugin plugin, Runnable onClick)
+	public AddMarkerMouseAdapter(JLabel markerAdd, PrayerMarkersPlugin plugin, Runnable onClick)
 	{
 		this.markerAdd = markerAdd;
 		this.plugin = plugin;
@@ -34,8 +34,8 @@ public class MarkerAddMouseAdapter extends MouseAdapter
 		String name = "Marker";
 		Color color = Color.WHITE;
 		boolean enabled = true;
-		float strokeThickness = 3.0F;
-		plugin.addMarker(selectedPrayer, enabled, name, color, strokeThickness);
+		float borderWidth = 1.0F;
+		plugin.addMarker(selectedPrayer, enabled, name, color, borderWidth);
 		onClick.run();
 	}
 
