@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.swing.JOptionPane;
 
 import lombok.AccessLevel;
@@ -43,6 +44,11 @@ public class PrayerMarkersPlugin extends Plugin
 
 	@Getter(AccessLevel.PUBLIC)
 	Collection<PrayerMarker> markers = new ArrayList<>();
+
+	@Getter
+	@Inject
+	@Named("developerMode")
+	private boolean developerMode;
 
 	@Inject
 	private Client client;
@@ -87,7 +93,7 @@ public class PrayerMarkersPlugin extends Plugin
 
 		overlayManager.add(prayerMarkersOverlay);
 
-		if (PrayerMarkersDelegate.clientDeveloperMode)
+		if (isDeveloperMode())
 		{
 			setupDebugMarkers();
 		}
